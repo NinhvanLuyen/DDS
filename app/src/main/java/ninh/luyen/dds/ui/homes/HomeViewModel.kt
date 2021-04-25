@@ -1,13 +1,11 @@
 package ninh.luyen.dds.ui.homes
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ninh.luyen.dds.R
 import ninh.luyen.dds.commons.BaseViewModel
-import ninh.luyen.dds.commons.utils.TAG
 import ninh.luyen.dds.datas.remotes.responses.SearchResponseModel
 import ninh.luyen.dds.datas.repositories.ErrorType
 import ninh.luyen.dds.datas.repositories.Result
@@ -23,9 +21,14 @@ class HomeViewModel(private val feedRepository: WeatherRepository) : BaseViewMod
     private val newsData = MutableLiveData<SearchResponseModel>()
     val news: LiveData<SearchResponseModel>
         get() = newsData
-    private val querySave = MutableLiveData<String>()
+
+    private val queryEmitter = MutableLiveData<String>()
     val query:LiveData<String>
-        get() = querySave
+        get() = queryEmitter
+
+    private val loadingEmitter = MutableLiveData<Boolean>()
+    val loading:LiveData<Boolean>
+        get() = loadingEmitter
 
 
     private val errorMessage = MutableLiveData<Int>()
@@ -33,6 +36,7 @@ class HomeViewModel(private val feedRepository: WeatherRepository) : BaseViewMod
         get() = errorMessage
 
     fun search(query: String) {
+        loadingEmitter.value = true
         uiScope.launch {
             val result =
                 withContext(ioContext) {
@@ -72,7 +76,7 @@ class HomeViewModel(private val feedRepository: WeatherRepository) : BaseViewMod
             when (result) {
                 is Result.Success -> {
                     newsData.value = result.data.searchResponseModel
-                    querySave.value = result.data.query
+                    queryEmitter.value = result.data.query
                 }
                 is Result.Error -> {
                     when (result.error) {

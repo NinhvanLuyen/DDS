@@ -5,6 +5,15 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('../mykey')
+            storePassword 'demo123'
+            keyAlias 'demo1'
+            keyPassword 'demo123'
+        }
+    }
+
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -16,18 +25,26 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags "-frtti -fexceptions"
+            }
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String','HOST','"https://api.openweathermap.org/data/2.5/"')
+            signingConfig signingConfigs.release
 
         }
         debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources false
             buildConfigField('String','HOST','"https://api.openweathermap.org/data/2.5/"')
 
         }
@@ -46,6 +63,11 @@ android {
     testOptions {
         unitTests.includeAndroidResources = true
     }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
 }
 
 dependencies {
@@ -60,17 +82,15 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.cardview:cardview:1.0.0'
 
     implementation "androidx.recyclerview:recyclerview:1.2.0"
-    implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
+
 
     implementation "androidx.multidex:multidex:$multidex_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    /* Android Architecture Component - LiveData & ViewModel  */
+    /* Android Architecture Component - ViewModel  */
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     /* Retrofit using RxJava2, OkHttp logging interceptor, GSon  */
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -88,21 +108,13 @@ dependencies {
     /* Coroutines  */
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 
-
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation "io.reactivex.rxjava3:rxjava:3.0.11"
-
-    implementation 'org.greenrobot:eventbus:3.2.0'
-    implementation 'commons-io:commons-io:2.6'
-
     //Test
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     // Required -- JUnit 4 framework
-    testImplementation 'junit:junit:4.13.2'
     // Optional -- Robolectric environment
-    testImplementation 'androidx.test:core:1.3.0'
     // Optional -- Mockito framework
-    testImplementation 'org.mockito:mockito-core:2.23.4'
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$test_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    testImplementation "androidx.test:core:$junit_core_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
 }

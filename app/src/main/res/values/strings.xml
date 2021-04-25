@@ -13,4 +13,5 @@
     <string name="server_error">Server error, Please try again</string>
     <string name="undifine_error">Something bad !!!!</string>
     <string name="not_found">Oh no! I don\'t know this city </string>
+    <string name="loading">Please wait ....</string>
 </resources>

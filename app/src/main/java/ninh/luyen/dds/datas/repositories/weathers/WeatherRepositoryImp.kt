@@ -11,6 +11,7 @@ import ninh.luyen.dds.datas.remotes.responses.SearchCacheModel
 import ninh.luyen.dds.datas.remotes.responses.SearchResponseModel
 import ninh.luyen.dds.datas.repositories.ErrorType
 import ninh.luyen.dds.datas.repositories.Result
+import ninh.luyen.dds.datas.world.Door
 
 /**
  * Created by luyen_ninh on 3/22/21.
@@ -29,7 +30,7 @@ class WeatherRepositoryImp(
             val query = HashMap<String, String>()
             query["q"] = cityName
             query["cnt"] = "7"
-            query["appid"] = "60c6fbeb4b93ac653c492ba806fc346d"
+            query["appid"] = Door.keyMainDoor
             query["units"] = "metric"
 
             newsService.searchAsync(query).await().let {

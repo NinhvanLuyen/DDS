@@ -1,6 +1,7 @@
 package ninh.luyen.dds.commons
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import ninh.luyen.dds.R
 import ninh.luyen.dds.commons.utils.TAG
@@ -14,9 +15,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layoutId())
-
         getData()
-
         //add main frag
         addFragmentDefault(savedInstanceState)
     }
