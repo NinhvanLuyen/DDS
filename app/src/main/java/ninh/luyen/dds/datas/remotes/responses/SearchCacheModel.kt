@@ -1,6 +1,6 @@
 package ninh.luyen.dds.datas.remotes.responses
 
-import ninh.luyen.dds.commons.utils.inTime
+import ninh.luyen.dds.commons.utils.isInTime
 
 /**
  * Created by luyen_ninh on 4/23/21.
@@ -19,7 +19,7 @@ data class SearchCacheModel(
     fun isSameQuery(currentQuery: String, debounceTime:Long): Boolean {
         if (this.query != currentQuery)
             return false
-        if (this.timeRequest.inTime(debounceTime))
+        if (this.timeRequest.isInTime(debounceTime))
             return true
         return false
 

@@ -11,8 +11,8 @@ fun Int.toTimeFromSeconds(): String {
     return SimpleDateFormat("EEE, dd MMM yyyy", Locale.US).format(dateTime)
 }
 
-fun Long.inTime(secondsExpireTime: Long): Boolean {
-    if (this + (secondsExpireTime * 1000) < System.currentTimeMillis())
+fun Long.isInTime(debounce: Long): Boolean {
+    if (this + (debounce * 1000) <= System.currentTimeMillis())
         return false
     return true
 

@@ -34,12 +34,22 @@ controls.
 
 ### ----------------------------------------------------------------------------------------------
 
-## Languages, libraries and tools used
+## Other technically
+
+- Lifecycle-viewmodel for lifecycle handling. 
+- Coroutine for thread/data-flow handling 
+- Retrofit/OkHttp to make Api Request 
+- Koin to implement DI (Dependence injection)
+- Cmake/C++ for security hide secret api key 
+- R8 enable when build `release` to minify and shrinkResources. 
+- Junit4 for testing
+
+## Link references :
 
    * [Kotlin](https://kotlinlang.org/)
    * Android Support Libraries
    * [Koin](https://insert-koin.io/)
-   * [Corountine](https://github.com/google/dagger)
+   * [Coroutines](https://developer.android.com/kotlin/coroutines)
    * [Retrofit](http://square.github.io/retrofit/)
    * [OkHttp](http://square.github.io/okhttp/)
    * [Gson](https://github.com/google/gson)
