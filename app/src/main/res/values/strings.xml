@@ -7,7 +7,7 @@
     <string name="description">Description: %s</string>
     <string name="humidity">Humidity: %d</string>
     <string name="pressure">Pressure: %d</string>
-    <string name="avg_temp">Average Temperature: %s*C</string>
+    <string name="avg_temp">Average Temperature: %s °C</string>
     <string name="date">Date: %s</string>
     <string name="network_error">No internet connection</string>
     <string name="server_error">Server error, Please try again</string>
