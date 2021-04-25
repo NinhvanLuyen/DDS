@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Desk Dock Smart</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Your places</string>
+    <string name="description">Description: %s</string>
+    <string name="humidity">Humidity: %d</string>
+    <string name="pressure">Pressure: %d</string>
+    <string name="avg_temp">Average Temperature: %s*C</string>
+    <string name="date">Date: %s</string>
+    <string name="network_error">No internet connection</string>
+    <string name="server_error">Server error, Please try again</string>
+    <string name="undifine_error">Something bad !!!!</string>
+    <string name="not_found">Oh no! I don\'t know this city </string>
+</resources>
