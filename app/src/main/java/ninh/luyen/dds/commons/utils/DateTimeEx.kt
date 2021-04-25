@@ -10,3 +10,11 @@ fun Int.toTimeFromSeconds(): String {
     val dateTime = Date(this * 1000L)
     return SimpleDateFormat("EEE, dd MMM yyyy", Locale.US).format(dateTime)
 }
+
+fun Long.inTime(secondsExpireTime: Long): Boolean {
+    if (this + (secondsExpireTime * 1000) < System.currentTimeMillis())
+        return false
+    return true
+
+
+}

@@ -14,4 +14,6 @@
     <string name="undifine_error">Something bad !!!!</string>
     <string name="not_found">Oh no! I don\'t know this city </string>
     <string name="loading">Please wait ....</string>
+    <string name="input_your_city">where are you need to know the weather? </string>
+    <string name="too_short">The search term length must be from 3 characters or above</string>
 </resources>

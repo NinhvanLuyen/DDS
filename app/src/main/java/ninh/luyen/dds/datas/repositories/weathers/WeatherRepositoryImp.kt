@@ -1,9 +1,7 @@
 package ninh.luyen.dds.datas.repositories.weathers
 
-import android.util.Log
-import com.google.gson.Gson
-import ninh.luyen.dds.commons.utils.TAG
 import ninh.luyen.dds.commons.utils.handleError
+import ninh.luyen.dds.datas.Constances
 import ninh.luyen.dds.datas.cache.CacheSharedPreferences
 import ninh.luyen.dds.datas.remotes.NetworkHandler
 import ninh.luyen.dds.datas.remotes.api.WeatherService
@@ -32,14 +30,47 @@ class WeatherRepositoryImp(
             query["cnt"] = "7"
             query["appid"] = Door.keyMainDoor
             query["units"] = "metric"
+            val lastResult = cacheLocal.getCacheSearchResult()
+            if (lastResult != null
+                && lastResult.isSameQuery(
+                    currentQuery = cityName,
+                    debounceTime = Constances.DEBOUNCE_TIME_FETCH_API
+                )
+            ) {
+                if (lastResult.searchResponseModel == null)
+                    Result.Error(GetWeathersFails.NotFound)
+                else
 
-            newsService.searchAsync(query).await().let {
-                cacheLocal.saveSearchResult(SearchCacheModel(cityName,it))
-                Result.Success(it)
+                    Result.Success(lastResult.searchResponseModel)
+            } else {
+                newsService.searchAsync(query).await().let {
+                    cacheLocal.saveSearchResult(
+                        SearchCacheModel(
+                            query = cityName,
+                            timeRequest = System.currentTimeMillis(),
+                            searchResponseModel = it
+                        )
+                    )
+                    Result.Success(it)
+                }
             }
-
         } catch (e: Exception) {
-            return e.handleError()
+            val error = e.handleError()
+            val lastResult = cacheLocal.getCacheSearchResult()
+            if (lastResult?.isSameQuery(
+                    currentQuery = cityName,
+                    debounceTime = Constances.DEBOUNCE_TIME_FETCH_API
+                ) == false
+            ) {
+                cacheLocal.saveSearchResult(
+                    SearchCacheModel(
+                        query = cityName,
+                        timeRequest = System.currentTimeMillis(),
+                        searchResponseModel = null
+                    )
+                )
+            }
+            return error
         }
 
 
@@ -47,10 +78,12 @@ class WeatherRepositoryImp(
 
     override suspend fun getWeatherInCache(): Result<SearchCacheModel, ErrorType> {
         val responseLocal = cacheLocal.getCacheSearchResult()
-        return if (responseLocal == null)
-            Result.Error(GetWeathersFails.LocalEmpty)
-        else
-            Result.Success(responseLocal)
+            ?: return Result.Error(GetWeathersFails.LocalEmpty)
+        if (responseLocal.searchResponseModel == null)
+            return Result.Error(GetWeathersFails.LocalEmpty)
+
+
+        return Result.Success(responseLocal)
     }
 
 }

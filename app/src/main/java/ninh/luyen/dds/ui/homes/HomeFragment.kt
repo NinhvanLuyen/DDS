@@ -1,6 +1,8 @@
 package ninh.luyen.dds.ui.homes
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ConcatAdapter
@@ -31,17 +33,35 @@ class HomeFragment : BaseFragment() {
         edtSearch.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
-                    viewModel.search(edtSearch.text.toString())
+                    if (edtSearch.text.trim().length >= 3)
+                        viewModel.search(edtSearch.text.toString())
+                    else
+                        edtSearch.error = getString(R.string.too_short)
                     true
                 }
                 else -> {
-                    viewModel.search(edtSearch.text.toString())
                     false
 
                 }
 
             }
         }
+
+        edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                btnSearch.isEnabled = edtSearch.text.trim().length >= 3
+            }
+
+        })
+        btnSearch.isEnabled = edtSearch.text.trim().length >= 3
         btnSearch.onClick {
             viewModel.search(edtSearch.text.toString())
         }
